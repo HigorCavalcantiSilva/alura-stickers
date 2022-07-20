@@ -1,4 +1,6 @@
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -25,10 +27,17 @@ public class App {
         List<Map<String, String>> listaDeFilmes = parser.parse(body);
         
         for (Map<String, String> filme : listaDeFilmes) {
-			System.out.println(filme.get("title"));
-			System.out.println(filme.get("image"));
-			System.out.println(filme.get("imDbRating"));
-			System.out.println();
+        	String urlImagem = filme.get("image");
+        	String titulo = filme.get("title");
+        	
+        	String urlImagemGrande = urlImagem.substring(0, urlImagem.length() - 32) + ".jpg";
+        	System.out.println(urlImagemGrande);
+        	InputStream inputStream = new URL(urlImagemGrande).openStream();
+        	System.out.println(inputStream);
+        	String nomeArquivo = titulo;
+        	
+        	var geradora = new GeradoraDeFigurinhas();
+        	geradora.cria(inputStream, nomeArquivo);
 		}
         
     }
